@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - StudyHub</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="logo">
+            <h2><i class="fa-solid fa-book-open"></i> StudyHub</h2>
+        </div>
+       <ul class="nav-links">
+    <li><a href="/dashboard"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+    <li><a href="/upload"><i class="fa-solid fa-upload"></i> Upload Material</a></li>
+    <li><a href="/subject"><i class="fa-solid fa-folder"></i> My Subjects</a></li>
+    <li><a href="/notes"><i class="fa-solid fa-bookmark"></i> Saved Notes</a></li>
+</ul>
+        <div class="user-profile">
+            <i class="fa-solid fa-circle-user profile-icon"></i>
+            <span>Logged-in User</span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Search for subjects or topics...">
+            </div>
+            <a href="/" class="logout-link" style="text-decoration:none; color:#4f46e5; font-weight:bold;">Logout</a>
+        </header>
+
+        <section class="dashboard-content">
+            <h1>Welcome to StudyHub! 👋</h1>
+            <p>Access high-quality study materials for your 6th-semester subjects.</p>
+
+            <div class="material-grid">
+    {% for item in materials %}
+    <div class="material-card">
+        <div class="card-icon" style="color:#4f46e5; font-size:40px;">
+            <i class="fa-solid fa-file-pdf"></i>
+        </div>
+        <h3>{{ item.title }}</h3>
+        <p>Subject: {{ item.subject }}</p>
+        <span class="author">Semester: {{ item.semester }}</span>
+        
+        <a href="{{ url_for('download_file', filename=item.filename) }}">
+            <button class="download-btn" style="margin-top:15px; width:100%; padding:10px; background:#4f46e5; color:white; border:none; border-radius:5px; cursor:pointer;">
+                Download Now
+            </button>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.material-card');
+
+        searchInput.addEventListener('keyup', function(e) {
+            const query = e.target.value.toLowerCase();
+            cards.forEach(card => {
+                const title = card.querySelector('h3').innerText.toLowerCase();
+                if(title.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

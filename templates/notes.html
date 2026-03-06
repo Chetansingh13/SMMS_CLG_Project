@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Notes - StudyHub</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Specific Styles for Saved Notes List View */
+        .saved-header {
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .saved-header p {
+            color: #666;
+            font-size: 15px;
+            margin-top: 5px;
+        }
+
+        .filter-select {
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        /* List View Layout */
+        .notes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .note-item {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .note-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .note-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .note-icon {
+            font-size: 30px;
+            width: 50px;
+            height: 50px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .note-icon.pdf { color: #e34f26; }
+        .note-icon.doc { color: #2b579a; }
+
+        .note-details h3 {
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .note-meta {
+            font-size: 13px;
+            color: #888;
+            display: flex;
+            gap: 15px;
+        }
+
+        .note-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+
+        .download-btn {
+            background: #e0e7ff;
+            color: var(--primary-color);
+        }
+
+        .download-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .remove-btn {
+            background: #ffe4e6;
+            color: #e11d48;
+        }
+
+        .remove-btn:hover {
+            background: #e11d48;
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .note-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .note-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+            .saved-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="logo">
+            <h2><i class="fa-solid fa-book-open"></i> StudyHub</h2>
+        </div>
+        <ul class="nav-links">
+    <li><a href="/dashboard"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+    <li><a href="/upload"><i class="fa-solid fa-upload"></i> Upload Material</a></li>
+    <li><a href="/subject"><i class="fa-solid fa-folder"></i> My Subjects</a></li>
+    <li><a href="/notes"><i class="fa-solid fa-bookmark"></i> Saved Notes</a></li>
+</ul>
+        <div class="user-profile">
+            <i class="fa-solid fa-circle-user profile-icon"></i>
+            <span>Chetan</span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search saved notes...">
+            </div>
+            <button class="mobile-menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+        </header>
+
+        <section class="dashboard-content">
+            <div class="saved-header">
+                <div>
+                    <h2><i class="fa-solid fa-bookmark" style="color: var(--primary-color);"></i> My Saved Notes</h2>
+                    <p>Quick access to your bookmarked study materials.</p>
+                </div>
+                <select class="filter-select">
+                    <option value="all">All Subjects</option>
+                    <option value="web">Web Development</option>
+                    <option value="python">Python Programming</option>
+                    <option value="dbms">Database Systems</option>
+                </select>
+            </div>
+
+            <div class="notes-list">
+                
+                <div class="note-item" id="note-1">
+                    <div class="note-info">
+                        <div class="note-icon pdf"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="note-details">
+                            <h3>HTML5 & CSS3 Responsive Layouts</h3>
+                            <div class="note-meta">
+                                <span><i class="fa-solid fa-folder-open"></i> Web Development</span>
+                                <span><i class="fa-solid fa-chalkboard-user"></i> Prof. Sharma</span>
+                                <span><i class="fa-solid fa-clock"></i> Saved 2 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="note-actions">
+                        <button class="action-btn download-btn" title="Download"><i class="fa-solid fa-download"></i></button>
+                        <button class="action-btn remove-btn" title="Remove Bookmark" onclick="removeNote('note-1')"><i class="fa-solid fa-bookmark"></i></button>
+                    </div>
+                </div>
+
+                <div class="note-item" id="note-2">
+                    <div class="note-info">
+                        <div class="note-icon doc"><i class="fa-solid fa-file-word"></i></div>
+                        <div class="note-details">
+                            <h3>Python Lists & Dictionaries Cheat Sheet</h3>
+                            <div class="note-meta">
+                                <span><i class="fa-solid fa-folder-open"></i> Python Programming</span>
+                                <span><i class="fa-solid fa-user-graduate"></i> Rahul K.</span>
+                                <span><i class="fa-solid fa-clock"></i> Saved 1 week ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="note-actions">
+                        <button class="action-btn download-btn" title="Download"><i class="fa-solid fa-download"></i></button>
+                        <button class="action-btn remove-btn" title="Remove Bookmark" onclick="removeNote('note-2')"><i class="fa-solid fa-bookmark"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Simple script to remove a note from the UI
+        function removeNote(noteId) {
+            const noteElement = document.getElementById(noteId);
+            if(confirm("Are you sure you want to remove this from your saved notes?")) {
+                noteElement.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

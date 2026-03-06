@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Subjects - StudyHub</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Specific Styles for Subjects View */
+        .subjects-header {
+            margin-bottom: 30px;
+        }
+
+        .subjects-header h2 {
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subjects-header p {
+            color: #666;
+            font-size: 15px;
+            margin-top: 5px;
+        }
+
+        /* Subjects Grid */
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .subject-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-top: 4px solid transparent;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Subject Specific Colors */
+        .subject-card.web { border-top-color: #e34f26; }
+        .subject-card.python { border-top-color: #3776ab; }
+        .subject-card.cloud { border-top-color: #00a8e1; }
+        .subject-card.security { border-top-color: #dc2626; }
+
+        .folder-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .subject-card.web .folder-icon { color: #e34f26; }
+        .subject-card.python .folder-icon { color: #3776ab; }
+        .subject-card.cloud .folder-icon { color: #00a8e1; }
+        .subject-card.security .folder-icon { color: #dc2626; }
+
+        .subject-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .subject-card p {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            font-size: 13px;
+            color: #888;
+        }
+
+        .stats span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="logo">
+            <h2><i class="fa-solid fa-book-open"></i> StudyHub</h2>
+        </div>
+        <ul class="nav-links">
+    <li><a href="/dashboard"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+    <li><a href="/upload"><i class="fa-solid fa-upload"></i> Upload Material</a></li>
+    <li><a href="/subject"><i class="fa-solid fa-folder"></i> My Subjects</a></li>
+    <li><a href="/notes"><i class="fa-solid fa-bookmark"></i> Saved Notes</a></li>
+</ul>
+        <div class="user-profile">
+            <i class="fa-solid fa-circle-user profile-icon"></i>
+            <span>Chetan</span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search for a subject...">
+            </div>
+            <button class="mobile-menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+        </header>
+
+        <section class="dashboard-content">
+            <div class="subjects-header">
+                <h2><i class="fa-solid fa-layer-group" style="color: var(--primary-color);"></i> Diploma Curriculum</h2>
+                <p>6th Semester - Computer Science</p>
+            </div>
+
+            <div class="subject-grid">
+                
+                <div class="subject-card web" onclick="openSubject('Web Development')">
+                    <div class="folder-icon"><i class="fa-solid fa-folder-tree"></i></div>
+                    <h3>Web Development</h3>
+                    <p>Advanced HTML, CSS, JS & Frameworks</p>
+                    <div class="stats">
+                        <span><i class="fa-solid fa-file-pdf"></i> 24 Files</span>
+                        <span><i class="fa-solid fa-users"></i> 5 Contributors</span>
+                    </div>
+                </div>
+
+                <div class="subject-card python" onclick="openSubject('Python Programming')">
+                    <div class="folder-icon"><i class="fa-brands fa-python"></i></div>
+                    <h3>Python Programming</h3>
+                    <p>Core Python, Django & Automation</p>
+                    <div class="stats">
+                        <span><i class="fa-solid fa-file-pdf"></i> 18 Files</span>
+                        <span><i class="fa-solid fa-users"></i> 3 Contributors</span>
+                    </div>
+                </div>
+
+                <div class="subject-card cloud" onclick="openSubject('Cloud Computing')">
+                    <div class="folder-icon"><i class="fa-solid fa-cloud"></i></div>
+                    <h3>Cloud Computing</h3>
+                    <p>AWS, Virtualization & Deployment</p>
+                    <div class="stats">
+                        <span><i class="fa-solid fa-file-pdf"></i> 12 Files</span>
+                        <span><i class="fa-solid fa-users"></i> 2 Contributors</span>
+                    </div>
+                </div>
+
+                <div class="subject-card security" onclick="openSubject('Network Security')">
+                    <div class="folder-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>Network Security</h3>
+                    <p>Cryptography, Firewalls & Protocols</p>
+                    <div class="stats">
+                        <span><i class="fa-solid fa-file-pdf"></i> 30 Files</span>
+                        <span><i class="fa-solid fa-users"></i> 6 Contributors</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Simple function to demonstrate navigation
+        function openSubject(subjectName) {
+            // In a fully working app, this would route to a specific subject page 
+            // and filter the database. For now, we simulate it:
+            alert(`Opening all study materials for: ${subjectName}`);
+            // window.location.href = 'index.html?subject=' + encodeURIComponent(subjectName);
+        }
+    </script>
+</body>
+</html>

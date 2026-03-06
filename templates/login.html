@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Study Material Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #3730a3;
+            --bg-color: #f3f4f6;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container & Card */
+        .container {
+            background: var(--text-light);
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--primary-color);
+            color: var(--text-light);
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .header h2 {
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Form Layout */
+        .form-container {
+            padding: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Role Selection (Student / Teacher) */
+        .role-selection {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .role-option {
+            flex: 1;
+            text-align: center;
+        }
+
+        .role-option input[type="radio"] {
+            display: none;
+        }
+
+        .role-option label {
+            display: block;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .role-option input[type="radio"]:checked + label {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Buttons & Toggles */
+        .submit-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 600;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .toggle-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .toggle-text a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .toggle-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hide Registration Form by Default */
+        #registerForm {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h2><i class="fa-solid fa-book-open"></i> StudyHub</h2>
+            <p>Govt. Polytechnic Lisana</p>
+        </div>
+
+        <div class="form-container" id="loginForm">
+            <h3 style="margin-bottom: 20px; text-align: center; color: #333;">Welcome Back</h3>
+            
+            <form action="/login" method="POST">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+
+            <div class="toggle-text">
+                Don't have an account? <a onclick="toggleForm()">Register here</a>
+            </div>
+        </div>
+
+        <div class="form-container" id="registerForm">
+            <h3 style="margin-bottom: 20px; text-align: center; color: #333;">Create an Account</h3>
+            <form action="/register" method="POST">
+                
+                <div class="role-selection">
+                    <div class="role-option">
+                        <input type="radio" id="roleStudent" name="userRole" value="student" checked>
+                        <label for="roleStudent"><i class="fa-solid fa-user-graduate"></i> Student</label>
+                    </div>
+                    <div class="role-option">
+                        <input type="radio" id="roleTeacher" name="userRole" value="teacher">
+                        <label for="roleTeacher"><i class="fa-solid fa-chalkboard-user"></i> Teacher</label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="e.g. Chetan" required>
+                </div>
+                <div class="input-group">
+                    <label>Department / Branch</label>
+                    <select name="branch" required>
+                        <option value="" disabled selected>Select Branch</option>
+                        <option value="cs">Computer Science (CS)</option>
+                        <option value="civil">Civil Engineering</option>
+                        <option value="mech">Mechanical Engineering</option>
+                        <option value="elec">Electrical Engineering</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" name="reg_email" placeholder="Create an email" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" name="reg_password" placeholder="Create a password" required>
+                </div>
+                <button type="submit" class="submit-btn">Register</button>
+            </form>
+            <div class="toggle-text">
+                Already have an account? <a onclick="toggleForm()">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

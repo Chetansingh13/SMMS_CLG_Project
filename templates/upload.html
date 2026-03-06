@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Material - StudyHub</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Specific Styles for the Upload Page */
+        .upload-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .upload-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .upload-header p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Drag and Drop File Area */
+        .file-drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #fafafa;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .file-drop-area:hover {
+            border-color: var(--primary-color);
+            background-color: #f3f4f6;
+        }
+
+        .file-drop-area i {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .file-drop-area p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .file-drop-area input[type="file"] {
+            display: none;
+        }
+
+        .upload-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .upload-btn:hover {
+            background: #3730a3;
+        }
+
+        .role-badge {
+            display: inline-block;
+            background: #e0e7ff;
+            color: var(--primary-color);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="logo">
+            <h2><i class="fa-solid fa-book-open"></i> StudyHub</h2>
+        </div>
+        <ul class="nav-links">
+    <li><a href="/dashboard"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+    <li><a href="/upload"><i class="fa-solid fa-upload"></i> Upload Material</a></li>
+    <li><a href="/subject"><i class="fa-solid fa-folder"></i> My Subjects</a></li>
+    <li><a href="/notes"><i class="fa-solid fa-bookmark"></i> Saved Notes</a></li>
+</ul>
+        <div class="user-profile">
+            <i class="fa-solid fa-circle-user profile-icon"></i>
+            <span>Chetan</span>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <button class="mobile-menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+        </header>
+
+        <section class="dashboard-content">
+            <div class="upload-container">
+                <div class="upload-header">
+                    <h2>Share Study Material</h2>
+                    <p>Help your peers by uploading high-quality notes and resources.</p>
+                </div>
+                
+                <div style="text-align: center;">
+                    <span class="role-badge"><i class="fa-solid fa-user-graduate"></i> Uploading as: Student Contributor</span>
+                </div>
+
+                <form id="uploadForm" action="/upload_file" method="POST" enctype="multipart/form-data">
+    
+    <div class="form-group">
+        <label>Material Title</label>
+        <input type="text" name="title" placeholder="e.g., HTML/CSS Flexbox Cheatsheet" required>
+    </div>
+
+    <div class="form-group">
+        <label>Semester</label>
+        <select name="semester" required>
+            <option value="" disabled selected>Select Semester</option>
+            <option value="1">1st Semester</option>
+            <option value="2">2nd Semester</option>
+            <option value="3">3rd Semester</option>
+            <option value="4">4th Semester</option>
+            <option value="5">5th Semester</option>
+            <option value="6">6th Semester</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Subject (Computer Science)</label>
+        <select name="subject" required>
+            <option value="" disabled selected>Select Subject</option>
+            <option value="web-dev">Web Development</option>
+            <option value="python">Python Programming</option>
+            <option value="dbms">Database Systems</option>
+            <option value="se">Software Engineering</option>
+            <option value="other">Other</option>
+        </select>
+    </div>
+
+    <div class="file-drop-area" onclick="document.getElementById('fileInput').click()">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <h3>Click or Drag & Drop to Upload</h3>
+        <p>Supports PDF, DOCX, and PPT (Max 10MB)</p>
+        <input type="file" id="fileInput" name="file" required accept=".pdf,.doc,.docx,.ppt,.pptx" style="display:none;">
+    </div>
+
+    <button type="submit" class="upload-btn">Publish Material</button>
+</form>
+            </div>
+        </section>
+    </main>
+
+<script>
+    // 1. Sirf file ka naam dikhane ke liye (Isse server pe koi asar nahi padega)
+    const fileInput = document.getElementById('fileInput');
+    const dropArea = document.querySelector('.file-drop-area h3');
+
+    fileInput.addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+            dropArea.innerText = `Selected: ${e.target.files[0].name}`;
+            dropArea.style.color = '#4f46e5';
+        }
+    });
+
+    // 2. PURANA SUBMIT WALA CODE HATA DIYA HAI. 
+    // Ab jab aap button dabayenge, toh Flask ka action="/upload_file" trigger hoga.
+</script>
+</body>
+</html>
